@@ -1,8 +1,12 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Calculator {
+    private static final Logger logger = LogManager.getLogger(Calculator.class);
+
     public static void main(String[] args) throws IOException {
         System.out.println("******************** Welcome to Calculator Application ****************");
         while(true) {
@@ -64,37 +68,72 @@ public class Calculator {
         }// end of infinite while loop
     }
 
-    public static double factorial(int n)
+    public static double factorial(double num1)
     {
-        if(n<0){
-            System.out.println(" !!Factorial Does not  exist for Negative Numbers!! ");
+        logger.info("[FACTORIAL] - " + num1);
+        double result=1;
+        if(num1<0){
+            System.out.println("factorial doesn't exist for negative numbers");
             return Double.NaN;
         }
-        if (n == 0)
-            return 1;
+        for(int i=1; i<=num1; i++){
+            result = result* i;
 
-        return n*factorial(n-1);
-
+        }
+        logger.info("[RESULT - FACTORIAL] - " + result);
+        return result;
     }
 
     public static double squareRoot(double num){
+        logger.info("[SQ ROOT] - " + num);
         if(num<0)
             return Double.NaN;
-        return Math.sqrt(num);
+
+        double result = Math.sqrt(num);
+        logger.info("[RESULT - SQ ROOT] - " + result);
+        return result;
+
     }
 
-    public static double cal_natural_log(double num){
-        if(num==0)
-            return Double.NEGATIVE_INFINITY;
-        else if(num<0)
-            return Double.NaN;
-        return Math.log(num);
+    public static double cal_natural_log(double number){
+        logger.info("[NATURAL LOG] - " + number);
+        double result = 0;
+
+        try {
+
+            if (number <0 ) {
+                result = Double.NaN;
+
+                throw new ArithmeticException("Case of NaN 0.0/0.0");
+            }
+            else {
+
+                result = Math.log(number);
+            }
+
+        } catch (ArithmeticException error) {
+
+            System.out.println("[EXCEPTION - LOG] - Cannot find log of negative numbers " + error.getLocalizedMessage());
+        }
+
+        logger.info("[RESULT - NATURAL LOG] - " + result);
+
+        return result;
     }
 
     public static double cal_pow(double base_num, double exp_num){
+        logger.info("[POWER - " + base_num + " RAISED TO] " + exp_num);
+
         if(base_num==0 && exp_num==0)
             return Double.NaN;
-        return Math.pow(base_num, exp_num);
+
+
+        double result = Math.pow(base_num, exp_num);
+
+        logger.info("[RESULT - POWER] - " + result);
+
+
+        return result;
     }
 
 }
